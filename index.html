@@ -16,6 +16,20 @@
   -->
   <base href="/agenda/">
 
+  <!--
+    Restaura a rota pedida diretamente (ex.: /agenda/teatro). O GitHub Pages responde 404
+    a essas URLs; o 404.html redireciona para cá com "?p=/teatro" e aqui a URL volta ao
+    normal antes de o app iniciar. Só aceita caminhos internos (começando com uma única "/").
+  -->
+  <script>
+    (function () {
+      var p = new URLSearchParams(window.location.search).get('p');
+      if (p && /^\/(?!\/)/.test(p) && p.indexOf('\\') === -1) {
+        window.history.replaceState(null, '', '/agenda' + p);
+      }
+    })();
+  </script>
+
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A new Flutter project.">

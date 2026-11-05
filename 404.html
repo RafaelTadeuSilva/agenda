@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>agendacst</title>
+  <!--
+    O GitHub Pages não tem como servir rotas do app (ex.: /agenda/teatro) e responde
+    com esta página. Ela leva o visitante para /agenda/ guardando o caminho pedido em
+    "?p=", e o index.html restaura a URL original antes de o app iniciar.
+    Se o caminho não for uma rota do app, o próprio app redireciona para a agenda.
+  -->
+  <script>
+    (function () {
+      var base = '/agenda/'; // mesmo valor do <base href> do index.html
+      var l = window.location;
+      if (l.pathname.indexOf(base) !== 0) {
+        l.replace(base);
+        return;
+      }
+      var rota = l.pathname.substring(base.length - 1) + l.search + l.hash; // ex.: /teatro
+      l.replace(l.origin + base + '?p=' + encodeURIComponent(rota));
+    })();
+  </script>
+</head>
+<body>
+  <noscript>
+    Este aplicativo precisa de JavaScript. <a href="/agenda/">Abrir a agenda</a>
+  </noscript>
+</body>
+</html>
