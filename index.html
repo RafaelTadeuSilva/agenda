@@ -45,6 +45,29 @@
 
   <title>agendacst</title>
   <link rel="manifest" href="manifest.json">
+
+  <!--
+    Teclado no celular. O Flutter cria o próprio <meta name="viewport"> ao iniciar
+    (com flt-viewport). Sem "interactive-widget=resizes-content", o Chrome do Android
+    só encolhe a área visível e desloca a página inteira para cima ao abrir o teclado,
+    somando-se ao ajuste que o Flutter já faz, e a tela "foge". Com resizes-content,
+    a página é redimensionada e o Flutter reorganiza o layout acima do teclado.
+    "maximum-scale=1.0" evita o zoom automático do iPhone ao tocar em um campo.
+  -->
+  <script>
+    (function () {
+      var CONTENT = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, interactive-widget=resizes-content';
+      function fix() {
+        var metas = document.head.querySelectorAll('meta[name="viewport"]');
+        for (var i = 0; i < metas.length; i++) {
+          if (metas[i].getAttribute('content') !== CONTENT) metas[i].setAttribute('content', CONTENT);
+        }
+      }
+      new MutationObserver(fix).observe(document.head, {
+        childList: true, subtree: true, attributes: true, attributeFilter: ['content'],
+      });
+    })();
+  </script>
 </head>
 <body>
   <!--
